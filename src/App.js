@@ -9,7 +9,6 @@ class App extends React.Component {
     toggle = () => {
         this.setState((state) => ({ isToggle: !state.isToggle }));
     };
-
     render() {
         return (
             <div className="App">
