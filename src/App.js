@@ -2,13 +2,6 @@ import React from "react";
 import "./App.css";
 
 class App extends React.Component {
-    state = {
-        toggle: false,
-    };
-
-    toggle = () => {
-        this.setState({ toggle: !this.state.toggle });
-    };
     render() {
         const styleBtn = {
             backgroundColor: "#111",
@@ -19,10 +12,7 @@ class App extends React.Component {
         };
         return (
             <div className="App">
-                <p>{this.state.toggle ? "Yes" : "No"}</p>
-                <button onClick={this.toggle} style={styleBtn}>
-                    Click
-                </button>
+                <button style={styleBtn}>Click</button>
             </div>
         );
     }
