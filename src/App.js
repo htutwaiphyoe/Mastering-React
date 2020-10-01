@@ -3,11 +3,7 @@ import "./App.css";
 
 class App extends React.Component {
     render() {
-        return (
-            <div className="App">
-                <button>Click</button>
-            </div>
-        );
+        return <div className="App">Hello, world!</div>;
     }
 }
 export default App;
