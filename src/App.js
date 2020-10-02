@@ -6,5 +6,4 @@ class App extends React.Component {
         return <Clock />;
     }
 }
-
 export default App;
