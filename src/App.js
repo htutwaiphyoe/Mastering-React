@@ -1,14 +1,18 @@
 import React from "react";
 import "./App.css";
 
-const Person = (props) => {
-    return <p>Hello, {props.children}!</p>;
-};
 class App extends React.Component {
+    state = {
+        person: {
+            name: "Htut Wai Phyoe",
+            age: 20,
+        },
+    };
     render() {
         return (
-            <div>
-                <Person>Htut Wai Phyoe</Person>
+            <div className="App">
+                <p>{this.state.person.name}</p>
+                <p>{this.state.person.age}</p>
             </div>
         );
     }
