@@ -3,30 +3,32 @@ import "./App.css";
 import Person from "./Person/Person";
 class App extends React.Component {
     state = {
-        persons: [{ name: "Jane", age: 20 }],
+        persons: [
+            { name: "Jane", age: 20 },
+            { name: "George", age: 21 },
+            { name: "Emily", age: 22 },
+        ],
+        show: false,
     };
 
-    switchNameHandler = (name) => {
+    togglePersonHandler = () => {
         this.setState({
-            persons: [{ name: `Jane ${name}`, age: 20 }],
-        });
-    };
-
-    inputChangeHandler = (event) => {
-        this.setState({
-            persons: [{ name: event.target.value, age: 20 }],
+            show: !this.state.show,
         });
     };
     render() {
+        let element = null;
+        if (this.state.show) {
+            element = this.state.persons.map((person) => (
+                <Person name={person.name} age={person.age} />
+            ));
+        }
         return (
             <div className="App">
-                <button onClick={this.switchNameHandler}>Switch</button>
-                <Person
-                    name={this.state.persons[0].name}
-                    age={this.state.persons[0].age}
-                    change={this.inputChangeHandler}
-                    val={this.state.persons[0].name}
-                />
+                <button onClick={this.togglePersonHandler}>
+                    {this.state.show ? "Hide" : "Show"}
+                </button>
+                {element}
             </div>
         );
     }
