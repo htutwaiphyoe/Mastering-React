@@ -1,5 +1,5 @@
 import React from "react";
-import Radium from "radium";
+import styled from "styled-components";
 import "./App.css";
 import Person from "./Person/Person";
 class App extends React.Component {
@@ -35,15 +35,17 @@ class App extends React.Component {
         this.setState({ persons });
     };
     render() {
-        const btnStyle = {
-            background: "white",
-            border: "1px solid #111",
-            padding: "16px",
-            ":hover": {
-                background: "#111",
-                color: "#f7f7f7",
-            },
-        };
+        const StyleBtn = styled.button`
+            background: ${(props) => (props.show ? "black" : "white")};
+            color: ${(props) => (props.show ? "white" : "black")};
+            border: 1px solid #111;
+            padding: 16px;
+            &:hover {
+                background: ${(props) => (props.show ? "white" : "black")};
+                color: ${(props) => (props.show ? "black" : "white")};
+            }
+        `;
+
         let element = null;
         if (this.state.show) {
             element = this.state.persons.map((person, index) => (
@@ -58,16 +60,14 @@ class App extends React.Component {
             ));
         }
         return (
-            <Radium.StyleRoot>
-                <div className="App">
-                    <button onClick={this.togglePersonHandler} style={btnStyle}>
-                        {this.state.show ? "Hide" : "Show"}
-                    </button>
-                    {element}
-                </div>
-            </Radium.StyleRoot>
+            <div className="App">
+                <StyleBtn onClick={this.togglePersonHandler} show={this.state.show}>
+                    {this.state.show ? "Hide" : "Show"}
+                </StyleBtn>
+                {element}
+            </div>
         );
     }
 }
 
-export default Radium(App);
+export default App;
