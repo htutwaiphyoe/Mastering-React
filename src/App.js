@@ -1,4 +1,5 @@
 import React from "react";
+import Radium from "radium";
 import "./App.css";
 import Person from "./Person/Person";
 class App extends React.Component {
@@ -34,6 +35,15 @@ class App extends React.Component {
         this.setState({ persons });
     };
     render() {
+        const btnStyle = {
+            background: "white",
+            border: "1px solid #111",
+            padding: "16px",
+            ":hover": {
+                background: "#111",
+                color: "#f7f7f7",
+            },
+        };
         let element = null;
         if (this.state.show) {
             element = this.state.persons.map((person, index) => (
@@ -48,14 +58,16 @@ class App extends React.Component {
             ));
         }
         return (
-            <div className="App">
-                <button onClick={this.togglePersonHandler}>
-                    {this.state.show ? "Hide" : "Show"}
-                </button>
-                {element}
-            </div>
+            <Radium.StyleRoot>
+                <div className="App">
+                    <button onClick={this.togglePersonHandler} style={btnStyle}>
+                        {this.state.show ? "Hide" : "Show"}
+                    </button>
+                    {element}
+                </div>
+            </Radium.StyleRoot>
         );
     }
 }
 
-export default App;
+export default Radium(App);
