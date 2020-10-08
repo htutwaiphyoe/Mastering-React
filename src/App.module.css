@@ -1,0 +1,14 @@
+.App {
+    text-align: center;
+}
+.button {
+    background: white;
+    color: black;
+    border: 1px solid #111;
+    padding: 16px;
+}
+
+.button:hover {
+    background: black;
+    color: white;
+}

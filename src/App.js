@@ -1,6 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-import "./App.css";
+import classes from "./App.module.css";
 import Person from "./Person/Person";
 class App extends React.Component {
     state = {
@@ -35,17 +34,6 @@ class App extends React.Component {
         this.setState({ persons });
     };
     render() {
-        const StyleBtn = styled.button`
-            background: ${(props) => (props.show ? "black" : "white")};
-            color: ${(props) => (props.show ? "white" : "black")};
-            border: 1px solid #111;
-            padding: 16px;
-            &:hover {
-                background: ${(props) => (props.show ? "white" : "black")};
-                color: ${(props) => (props.show ? "black" : "white")};
-            }
-        `;
-
         let element = null;
         if (this.state.show) {
             element = this.state.persons.map((person, index) => (
@@ -60,10 +48,10 @@ class App extends React.Component {
             ));
         }
         return (
-            <div className="App">
-                <StyleBtn onClick={this.togglePersonHandler} show={this.state.show}>
+            <div className={classes.App}>
+                <button onClick={this.togglePersonHandler} className={classes.button}>
                     {this.state.show ? "Hide" : "Show"}
-                </StyleBtn>
+                </button>
                 {element}
             </div>
         );
