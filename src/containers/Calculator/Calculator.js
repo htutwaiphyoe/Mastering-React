@@ -1,6 +1,6 @@
 import React from "react";
-import BoilingVerdict from "../BoilingVerdict/BoilingVerdict";
-import TemperatureInput from "../TemperatureInput/TemperatureInput";
+import BoilingVerdict from "../../components/BoilingVerdict/BoilingVerdict";
+import TemperatureInput from "../../components/TemperatureInput/TemperatureInput";
 class Calculator extends React.Component {
     state = {
         temperature: "",
