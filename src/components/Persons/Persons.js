@@ -14,10 +14,12 @@ class Persons extends React.Component {
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
         console.log("getSnapshotBeforeUpdate run");
+        return { prevProps };
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         console.log("componentDidUpdate run");
+        console.log(snapshot);
     }
     render() {
         console.log("Render run");
