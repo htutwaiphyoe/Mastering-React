@@ -2,10 +2,6 @@ import React from "react";
 import classes from "./App.module.css";
 import Persons from "../components/Persons/Persons";
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        console.log("Constructor runs");
-    }
     state = {
         persons: [
             { id: "1212", name: "Jane", age: 20 },
@@ -14,18 +10,11 @@ class App extends React.Component {
         ],
         show: false,
     };
-    static getDerivedStateFromProps(props, state) {
-        console.log("getDerivedStateFromProps runs");
-        return state;
-    }
     togglePersonHandler = () => {
         this.setState({
             show: !this.state.show,
         });
     };
-    componentDidMount() {
-        console.log("componentDidMount runs");
-    }
     deletePersonHandler = (index) => {
         const persons = [...this.state.persons];
 
@@ -42,7 +31,6 @@ class App extends React.Component {
         this.setState({ persons });
     };
     render() {
-        console.log("Render runs");
         let element = null;
         if (this.state.show) {
             element = (

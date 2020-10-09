@@ -1,8 +1,26 @@
 import React from "react";
 import Person from "./Person/Person";
 class Persons extends React.Component {
+    state = {};
+    static getDerivedStateFromProps(props, state) {
+        console.log("getDerivedStateFromProps run");
+        return state;
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("shouldComponentUpdate run");
+        return true;
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log("getSnapshotBeforeUpdate run");
+    }
+
+    componentDidUpdate() {
+        console.log("componentDidUpdate run");
+    }
     render() {
-        console.log("Persons run");
+        console.log("Render run");
         return this.props.persons.map((person, index) => (
             <Person
                 key={person.id}
