@@ -22,6 +22,25 @@ class App extends React.Component {
         this.setState({ persons });
     };
 
+    static getDerivedStateFromProps(props, state) {
+        console.log("getDerivedStateFromProps run");
+        return state;
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("shouldComponentUpdate run");
+        return true;
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log("getSnapshotBeforeUpdate run");
+        return { prevProps };
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("componentDidUpdate run");
+        console.log(snapshot);
+    }
     inputHandler = (e, id) => {
         const personIndex = this.state.persons.findIndex((p) => p.id === id);
         const person = { ...this.state.persons[personIndex] };
