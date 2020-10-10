@@ -11,6 +11,11 @@ class App extends React.Component {
         ],
         show: false,
     };
+
+    el = React.createRef();
+    componentDidMount() {
+        this.el.current.click();
+    }
     togglePersonHandler = () => {
         this.setState((state, props) => {
             return {
@@ -46,7 +51,7 @@ class App extends React.Component {
         }
         return (
             <ClassComponent cssClasses={classes.App}>
-                <button onClick={this.togglePersonHandler} className={classes.button}>
+                <button onClick={this.togglePersonHandler} className={classes.button} ref={this.el}>
                     {this.state.show ? "Hide" : "Show"}
                 </button>
                 {element}

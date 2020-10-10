@@ -1,33 +1,28 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import classes from "./Person.module.css";
 import wrapper from "../../../HOC/wrapper/wrapper";
 
-class Person extends React.Component {
-    el = React.createRef();
-    componentDidMount() {
-        this.el.current.focus();
-    }
-    render() {
-        return (
-            <React.Fragment>
-                <p onClick={this.props.click}>{this.props.name}</p>
-                <p>{this.props.age}</p>
-                <input
-                    type="text"
-                    onChange={this.props.change}
-                    value={this.props.name}
-                    ref={this.el}
-                />
-            </React.Fragment>
-        );
-    }
-}
+const Person = (props) => {
+    const el = useRef(null);
+    useEffect(() => {
+        el.current.focus();
+    }, []);
+
+    return (
+        <React.Fragment>
+            <p onClick={props.click}>{props.name}</p>
+            <p>{props.age}</p>
+            <input type="text" onChange={props.change} value={props.name} ref={el} />
+        </React.Fragment>
+    );
+};
 
 Person.propTypes = {
     name: PropTypes.string,
     age: PropTypes.number,
     click: PropTypes.func,
     change: PropTypes.func,
+    val: PropTypes.string,
 };
 export default wrapper(Person, classes.Person);
