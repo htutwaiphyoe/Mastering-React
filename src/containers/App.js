@@ -32,6 +32,7 @@ class App extends React.Component {
         persons[personIndex] = person;
         this.setState({ persons });
     };
+
     render() {
         let element = null;
         if (this.state.show) {
