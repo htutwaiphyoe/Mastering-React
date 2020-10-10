@@ -21,7 +21,6 @@ class App extends React.Component {
         persons.splice(index, 1);
         this.setState({ persons });
     };
-
     inputHandler = (e, id) => {
         const personIndex = this.state.persons.findIndex((p) => p.id === id);
         const person = { ...this.state.persons[personIndex] };
