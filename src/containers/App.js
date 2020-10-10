@@ -12,8 +12,10 @@ class App extends React.Component {
         show: false,
     };
     togglePersonHandler = () => {
-        this.setState({
-            show: !this.state.show,
+        this.setState((state, props) => {
+            return {
+                show: !state.show,
+            };
         });
     };
     deletePersonHandler = (index) => {
