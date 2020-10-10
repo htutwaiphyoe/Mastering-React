@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./App.module.css";
 import Persons from "../components/Persons/Persons";
+import ClassComponent from "../HOC/ClassComponent/ClassComponent";
 class App extends React.Component {
     state = {
         persons: [
@@ -41,12 +42,12 @@ class App extends React.Component {
             );
         }
         return (
-            <div className={classes.App}>
+            <ClassComponent cssClasses={classes.App}>
                 <button onClick={this.togglePersonHandler} className={classes.button}>
                     {this.state.show ? "Hide" : "Show"}
                 </button>
                 {element}
-            </div>
+            </ClassComponent>
         );
     }
 }

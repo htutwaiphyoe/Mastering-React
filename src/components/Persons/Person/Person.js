@@ -1,13 +1,13 @@
 import React from "react";
 import classes from "./Person.module.css";
-import Auxiliary from "../../../HOC/Auxillary/Auxillary";
+import ClassComponent from "../../../HOC/ClassComponent/ClassComponent";
 const Person = (props) => {
     return (
-        <Auxiliary>
+        <ClassComponent cssClasses={classes.Person}>
             <p onClick={props.click}>{props.name}</p>
             <p>{props.age}</p>
             <input type="text" onChange={props.change} value={props.val} />
-        </Auxiliary>
+        </ClassComponent>
     );
 };
 
