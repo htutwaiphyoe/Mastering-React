@@ -7,6 +7,7 @@ class Blog extends React.Component {
     state = {
         posts: [],
         selectedPostId: null,
+        error: false,
     };
     componentDidMount() {
         this.getPosts();
@@ -21,10 +22,17 @@ class Blog extends React.Component {
 
             this.setState({ posts: response.data.slice(0, 8) });
         } catch (e) {
-            alert("Something went wrong!");
+            this.setState({ error: true });
         }
     };
-    render() {
+    show() {
+        if (this.state.error) {
+            return (
+                <div>
+                    <p>Something went wrong!</p>
+                </div>
+            );
+        }
         return (
             <div>
                 <Posts posts={this.state.posts} onClickHandler={this.onClickHandler} />
@@ -32,6 +40,9 @@ class Blog extends React.Component {
                 <NewPost />
             </div>
         );
+    }
+    render() {
+        return this.show();
     }
 }
 
