@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import jsonplaceholder from "../../../api/JsonPlaceholder";
 import Posts from "../../Components/Posts/Posts";
 import FullPost from "../../Components/FullPost/FullPost";
 import NewPost from "../../Components/NewPost/NewPost";
@@ -18,7 +18,7 @@ class Blog extends React.Component {
     };
     getPosts = async () => {
         try {
-            const response = await axios.get("/posts");
+            const response = await jsonplaceholder.get("/posts");
 
             this.setState({ posts: response.data.slice(0, 8) });
         } catch (e) {
