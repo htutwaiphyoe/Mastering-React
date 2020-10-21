@@ -1,0 +1,9 @@
+.Post {
+    width: 250px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 1px #ccc;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
