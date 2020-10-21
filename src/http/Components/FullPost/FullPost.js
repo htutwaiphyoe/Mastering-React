@@ -14,9 +14,7 @@ class FullPost extends Component {
     }
     async getPostData() {
         try {
-            const response = await axios.get(
-                "https://jsonplaceholder.typicode.com/posts/" + this.props.id
-            );
+            const response = await axios.get("/posts/" + this.props.id);
 
             this.setState({ post: response.data });
         } catch (err) {
@@ -25,7 +23,7 @@ class FullPost extends Component {
     }
     onDeleteHandler = async () => {
         try {
-            await axios.delete("https://jsonplaceholder.typicode.com/posts/" + this.state.post.id);
+            await axios.delete("/posts/" + this.state.post.id);
         } catch (err) {
             alert("Something went wrong!");
         }

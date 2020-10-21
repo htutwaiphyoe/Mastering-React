@@ -18,7 +18,7 @@ class Blog extends React.Component {
     };
     getPosts = async () => {
         try {
-            const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
+            const response = await axios.get("/posts");
 
             this.setState({ posts: response.data.slice(0, 8) });
         } catch (e) {

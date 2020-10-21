@@ -9,7 +9,7 @@ class NewPost extends React.Component {
     onSubmitHandler = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {
+            const response = await axios.post("/posts", {
                 title: this.state.title,
                 body: this.state.body,
             });
