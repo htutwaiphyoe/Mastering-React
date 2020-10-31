@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import classes from "./Header.module.css";
+
 class Header extends React.Component {
     render() {
         return (
@@ -7,10 +9,16 @@ class Header extends React.Component {
                 <nav>
                     <ul>
                         <li>
-                            <a href="/">Home</a>
+                            <Link to="/">Home</Link>
                         </li>
                         <li>
-                            <a href="/new">New Post</a>
+                            <Link
+                                to={{
+                                    pathname: "/new",
+                                }}
+                            >
+                                New Post
+                            </Link>
                         </li>
                     </ul>
                 </nav>

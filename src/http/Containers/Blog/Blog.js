@@ -8,10 +8,7 @@ class Blog extends React.Component {
         return (
             <div>
                 <Route path="/" exact component={Posts} />
-
-                <Route path="/new" exact>
-                    <NewPost />
-                </Route>
+                <Route path="/new" exact component={NewPost} />
                 <Route path="/posts/:id" exact component={FullPost} />
             </div>
         );
