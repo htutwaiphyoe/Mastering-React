@@ -1,48 +1,20 @@
 import React from "react";
-import jsonplaceholder from "../../../api/JsonPlaceholder";
+import { Route } from "react-router-dom";
 import Posts from "../../Components/Posts/Posts";
 import FullPost from "../../Components/FullPost/FullPost";
 import NewPost from "../../Components/NewPost/NewPost";
 class Blog extends React.Component {
-    state = {
-        posts: [],
-        selectedPostId: null,
-        error: false,
-    };
-    componentDidMount() {
-        this.getPosts();
-    }
-
-    onClickHandler = (id) => {
-        this.setState({ selectedPostId: id });
-    };
-    getPosts = async () => {
-        try {
-            const response = await jsonplaceholder.get("/posts");
-
-            this.setState({ posts: response.data.slice(0, 8) });
-        } catch (e) {
-            this.setState({ error: true });
-        }
-    };
-    show() {
-        if (this.state.error) {
-            return (
-                <div>
-                    <p>Something went wrong!</p>
-                </div>
-            );
-        }
+    render() {
         return (
             <div>
-                <Posts posts={this.state.posts} onClickHandler={this.onClickHandler} />
-                <FullPost id={this.state.selectedPostId} />
-                <NewPost />
+                <Route path="/" exact component={Posts} />
+
+                <Route path="/new" exact>
+                    <NewPost />
+                </Route>
+                <Route path="/posts/:id" exact component={FullPost} />
             </div>
         );
-    }
-    render() {
-        return this.show();
     }
 }
 

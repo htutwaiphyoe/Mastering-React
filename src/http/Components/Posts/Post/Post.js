@@ -3,9 +3,9 @@ import classes from "./Post.module.css";
 
 const Post = (props) => {
     return (
-        <div className={classes.Post} onClick={props.onClickHandler}>
+        <a href={`/posts/${props.post.id}`} className={classes.Post}>
             <h3>{props.post.title}</h3>
-        </div>
+        </a>
     );
 };
 export default Post;

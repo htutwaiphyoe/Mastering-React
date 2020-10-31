@@ -6,4 +6,6 @@
     box-shadow: 0 1px 1px #ccc;
     cursor: pointer;
     margin-bottom: 20px;
+    text-decoration: none;
+    color: inherit;
 }
