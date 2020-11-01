@@ -6,16 +6,28 @@ class FullPost extends Component {
         post: null,
     };
     componentDidMount() {
+        this._mounted = true;
+        this.getPost(this.props.match.params.id);
+    }
+    componentDidUpdate() {
         this.getPost(this.props.match.params.id);
     }
     async getPost(id) {
         try {
-            const response = await axios.get("/posts/" + id);
+            if (id) {
+                if (!this.state.post || (id !== this.state.post.id && this.state.post !== null)) {
+                    const response = await axios.get("/posts/" + id);
 
-            this.setState({ post: response.data });
+                    this._mounted && this.setState({ post: response.data });
+                }
+            }
         } catch (err) {
-            alert("Something went wrong!");
+            console.log(err);
+            // alert("Something went wrong!");
         }
+    }
+    componentWillUnmount() {
+        this._mounted = false;
     }
     onDeleteHandler = async () => {
         try {

@@ -1,7 +1,9 @@
 import React from "react";
+import { Route } from "react-router-dom";
 import Post from "./Post/Post";
 import jsonplaceholder from "../../../api/JsonPlaceholder";
 import classes from "./Posts.module.css";
+import FullPost from "../FullPost/FullPost";
 class Posts extends React.Component {
     state = {
         posts: [],
@@ -26,7 +28,12 @@ class Posts extends React.Component {
         if (this.state.error) {
             posts = <div>Oops! Something went wrong!</div>;
         }
-        return <div className={classes.Posts}>{posts}</div>;
+        return (
+            <React.Fragment>
+                <div className={classes.Posts}>{posts}</div>
+                <Route path={`${this.props.match.url}:id`} component={FullPost} />
+            </React.Fragment>
+        );
     }
 }
 

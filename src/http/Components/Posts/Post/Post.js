@@ -1,12 +1,15 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import classes from "./Post.module.css";
 
 const Post = (props) => {
+    const onPostClick = () => {
+        props.history.push("/" + props.post.id);
+    };
     return (
-        <Link to={`/${props.post.id}`} className={classes.Post}>
+        <div className={classes.Post} onClick={onPostClick}>
             <h3>{props.post.title}</h3>
-        </Link>
+        </div>
     );
 };
 export default withRouter(Post);
