@@ -1,11 +1,12 @@
 import React from "react";
+import { Link, withRouter } from "react-router-dom";
 import classes from "./Post.module.css";
 
 const Post = (props) => {
     return (
-        <a href={`/posts/${props.post.id}`} className={classes.Post}>
+        <Link to={`/posts/${props.post.id}`} className={classes.Post}>
             <h3>{props.post.title}</h3>
-        </a>
+        </Link>
     );
 };
-export default Post;
+export default withRouter(Post);

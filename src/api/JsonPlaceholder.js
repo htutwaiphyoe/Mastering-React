@@ -5,7 +5,6 @@ const jsonplaceholder = axios.create({
 });
 jsonplaceholder.defaults.headers.common["Authorization"] = "Bearer";
 jsonplaceholder.interceptors.request.use((config) => {
-    console.log(config);
     return config;
 });
 
