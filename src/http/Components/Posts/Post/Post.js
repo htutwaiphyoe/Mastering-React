@@ -4,7 +4,7 @@ import classes from "./Post.module.css";
 
 const Post = (props) => {
     return (
-        <Link to={`/posts/${props.post.id}`} className={classes.Post}>
+        <Link to={`/${props.post.id}`} className={classes.Post}>
             <h3>{props.post.title}</h3>
         </Link>
     );
