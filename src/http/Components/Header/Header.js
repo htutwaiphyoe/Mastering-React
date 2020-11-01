@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import classes from "./Header.module.css";
 
 class Header extends React.Component {
@@ -9,16 +9,24 @@ class Header extends React.Component {
                 <nav>
                     <ul>
                         <li>
-                            <Link to="/">Home</Link>
+                            <NavLink
+                                to="/"
+                                exact
+                                activeStyle={{ color: "white", backgroundColor: "#111" }}
+                            >
+                                Home
+                            </NavLink>
                         </li>
                         <li>
-                            <Link
+                            <NavLink
                                 to={{
                                     pathname: "/new",
                                 }}
+                                exact
+                                activeClassName="nav--active"
                             >
                                 New Post
-                            </Link>
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>
