@@ -5,6 +5,7 @@ import Header from "./Components/Header/Header";
 class App extends React.Component {
     render() {
         return (
+            // <BrowserRouter basename="/app" />
             <BrowserRouter>
                 <div>
                     <Header />
