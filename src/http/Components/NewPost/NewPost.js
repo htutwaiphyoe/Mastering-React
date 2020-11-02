@@ -1,10 +1,12 @@
 import React from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 import classes from "./NewPost.module.css";
 class NewPost extends React.Component {
     state = {
         title: "",
         body: "",
+        submitted: false,
     };
     onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -14,10 +16,13 @@ class NewPost extends React.Component {
                 body: this.state.body,
             });
             if (response.status === 201) {
-                this.setState({
-                    title: "",
-                    body: "",
-                });
+                // this.setState({
+                //     title: "",
+                //     body: "",
+                //     submitted: true,
+                // });
+                // this.props.history.push("/");
+                this.props.history.replace("/");
             }
         } catch (e) {
             alert("Something went wrong!");
@@ -32,6 +37,7 @@ class NewPost extends React.Component {
     render() {
         return (
             <div className={classes.NewPost}>
+                {this.state.submitted ? <Redirect to="/" /> : null}
                 <form onSubmit={this.onSubmitHandler}>
                     <input
                         type="text"
