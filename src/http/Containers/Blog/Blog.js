@@ -1,14 +1,22 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Posts from "../../Components/Posts/Posts";
 import NewPost from "../../Components/NewPost/NewPost";
 class Blog extends React.Component {
+    state = {
+        auth: true,
+    };
     render() {
         return (
             <div>
                 <Switch>
-                    <Route path="/new" component={NewPost} />
+                    {this.state.auth ? (
+                        <Route path="/new" exact component={NewPost} />
+                    ) : (
+                        <Redirect from="/new" to="/" />
+                    )}
                     <Route path="/" component={Posts} />
+                    <Route render={() => <h1>404 Not Found</h1>} />
                 </Switch>
             </div>
         );
