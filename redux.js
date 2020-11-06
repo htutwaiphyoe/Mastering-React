@@ -1,14 +1,8 @@
 const redux = require("redux");
 
 // State
-
 const initialState = {
     counter: 0,
-};
-// Reducers
-const rootReducer = (state = initialState, action) => {
-    
-    return state;
 };
 
 // Action
@@ -19,8 +13,36 @@ const actionCreator = (type, payload) => {
     };
 };
 
+// Reducer
+
+const rootReducer = (state = initialState, action) => {
+    if (action.type === "INC") {
+        return {
+            ...state,
+            counter: state.counter + 1,
+        };
+    }
+    if (action.type === "ADD") {
+        return {
+            ...state,
+            counter: state.counter + action.payload,
+        };
+    }
+    return state;
+};
+
+// Store
+
 const store = redux.createStore(rootReducer);
+console.log(store.getState());
+
+// Subscription
+
+store.subscribe(() => {
+    console.log("Subscription", store.getState());
+});
+// Dispatcher
 
 store.dispatch(actionCreator("INC"));
-store.dispatch(actionCreator("ADD", 5));
+store.dispatch(actionCreator("ADD", 10));
 console.log(store.getState());
