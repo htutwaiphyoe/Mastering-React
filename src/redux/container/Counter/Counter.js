@@ -10,9 +10,12 @@ const Counter = (props) => {
             <CounterOutput counter={props.counter} />
             <div className={classes.Controls}>
                 <CounterControl label="Increment" onIncClick={props.incrementCounter} />
-                <CounterControl label="Decrement" onIncClick={props.incrementCounter} />
-                <CounterControl label="Add 10" onIncClick={props.incrementCounter} />
-                <CounterControl label="Substract 10" onIncClick={props.incrementCounter} />
+                <CounterControl label="Decrement" onIncClick={props.decrementCounter} />
+                <CounterControl label="Add 10" onIncClick={() => props.addCounter(10)} />
+                <CounterControl
+                    label="Substract 10"
+                    onIncClick={() => props.substractCounter(10)}
+                />
             </div>
         </div>
     );
@@ -30,5 +33,8 @@ const mapStateToProps = (state) => {
 // };
 const mapDispatchToProps = {
     incrementCounter: actionCreators.incrementCounter,
+    decrementCounter: actionCreators.decrementCounter,
+    addCounter: actionCreators.addCounter,
+    substractCounter: actionCreators.substractCounter,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
