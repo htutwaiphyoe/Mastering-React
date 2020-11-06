@@ -1,0 +1,7 @@
+.CounterControl {
+    padding: 10px 20px;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 1px #ccc;
+    cursor: pointer;
+    width: 200px;
+}

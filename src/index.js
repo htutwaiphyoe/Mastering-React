@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import "./index.css";
-import App from "./http/App";
+import App from "./redux/App";
+import { createStore } from "redux";
+import reducer from "./redux/store/reducers";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
@@ -30,9 +33,12 @@ const responseInterceptor = axios.interceptors.response.use(
     }
 );
 axios.interceptors.response.eject(responseInterceptor);
+const store = createStore(reducer);
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <Provider store={store}>
+            <App />
+        </Provider>
     </React.StrictMode>,
     document.getElementById("root")
 );
