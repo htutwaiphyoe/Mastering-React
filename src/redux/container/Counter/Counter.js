@@ -17,12 +17,21 @@ const Counter = (props) => {
                     onIncClick={() => props.substractCounter(10)}
                 />
             </div>
+            <button onClick={props.storeCounter}>Store</button>
+            <ul>
+                {props.results.map((result) => (
+                    <li key={result.id} onClick={() => props.deleteResult(result.id)}>
+                        {result.value}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
 const mapStateToProps = (state) => {
     return {
         counter: state.counter,
+        results: state.results,
     };
 };
 
@@ -36,5 +45,7 @@ const mapDispatchToProps = {
     decrementCounter: actionCreators.decrementCounter,
     addCounter: actionCreators.addCounter,
     substractCounter: actionCreators.substractCounter,
+    storeCounter: actionCreators.storeResult,
+    deleteResult: actionCreators.deleteResult,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);

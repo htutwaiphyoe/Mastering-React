@@ -1,5 +1,6 @@
 const initialState = {
     counter: 0,
+    results: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,6 +25,16 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 counter: state.counter - action.payload,
+            };
+        case "STORE":
+            return {
+                ...state,
+                results: [...state.results, { id: Date.now(), value: state.counter }],
+            };
+        case "DELETE":
+            return {
+                ...state,
+                results: state.results.filter((result) => result.id !== action.payload),
             };
         default:
             return state;

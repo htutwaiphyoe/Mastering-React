@@ -23,3 +23,16 @@ export const substractCounter = (value) => {
         payload: value,
     };
 };
+
+export const storeResult = () => {
+    return {
+        type: "STORE",
+    };
+};
+
+export const deleteResult = (id) => {
+    return {
+        type: "DELETE",
+        payload: id,
+    };
+};
