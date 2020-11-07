@@ -1,38 +1,39 @@
+import * as actionTypes from "./actionTypes";
 export const incrementCounter = () => {
     return {
-        type: "INC",
+        type: actionTypes.INC,
     };
 };
 
 export const decrementCounter = () => {
     return {
-        type: "DEC",
+        type: actionTypes.DEC,
     };
 };
 
 export const addCounter = (value) => {
     return {
-        type: "ADD",
+        type: actionTypes.ADD,
         payload: value,
     };
 };
 
 export const substractCounter = (value) => {
     return {
-        type: "SUB",
+        type: actionTypes.SUB,
         payload: value,
     };
 };
 
 export const storeResult = () => {
     return {
-        type: "STORE",
+        type: actionTypes.STORE,
     };
 };
 
 export const deleteResult = (id) => {
     return {
-        type: "DELETE",
+        type: actionTypes.DELETE,
         payload: id,
     };
 };
