@@ -25,9 +25,10 @@ export const substractCounter = (value) => {
     };
 };
 
-export const storeResult = () => {
+export const storeResult = (value) => {
     return {
         type: actionTypes.STORE,
+        payload: value,
     };
 };
 

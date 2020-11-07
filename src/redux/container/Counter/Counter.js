@@ -17,7 +17,7 @@ const Counter = (props) => {
                     onIncClick={() => props.substractCounter(10)}
                 />
             </div>
-            <button onClick={props.storeCounter}>Store</button>
+            <button onClick={() => props.storeCounter(props.counter)}>Store</button>
             <ul>
                 {props.results.map((result) => (
                     <li key={result.id} onClick={() => props.deleteResult(result.id)}>
@@ -30,8 +30,8 @@ const Counter = (props) => {
 };
 const mapStateToProps = (state) => {
     return {
-        counter: state.counter,
-        results: state.results,
+        counter: state.counter.counter,
+        results: state.results.results,
     };
 };
 
