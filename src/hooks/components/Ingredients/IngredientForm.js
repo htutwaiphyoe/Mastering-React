@@ -15,7 +15,6 @@ const IngredientForm = React.memo((props) => {
     const submitHandler = (event) => {
         event.preventDefault();
         props.onFormSubmit({
-            id: Date.now() + Math.random().toString(36).substr(2, 9),
             title: title.trim(),
             amount,
         });
