@@ -23,13 +23,20 @@ const Ingredients = (props) => {
     const setFilteredIngredients = useCallback((data) => {
         setIngredients(data);
     }, []);
+    const removeIngredients = (id) => {
+        fetch(`https://react-hooks-355b5.firebaseio.com/ingredients/${id}.json`, {
+            method: "DELETE",
+        }).then((response) => {
+            setIngredients((prevIngredients) => prevIngredients.filter((ing) => ing.id !== id));
+        });
+    };
     return (
         <div className="App">
             <IngredientForm onFormSubmit={addIngredients} />
 
             <section>
                 <Search setFilteredIngredients={setFilteredIngredients} />
-                <IngredientList ingredients={ingredients} onRemoveItem={() => {}} />
+                <IngredientList ingredients={ingredients} onRemoveItem={removeIngredients} />
             </section>
         </div>
     );
