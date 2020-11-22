@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
@@ -6,17 +6,9 @@ import Search from "./Search";
 
 const Ingredients = (props) => {
     const [ingredients, setIngredients] = useState([]);
-    useEffect(() => {
-        fetch("https://react-hooks-355b5.firebaseio.com/ingredients.json")
-            .then((response) => response.json())
-            .then((res) => {
-                const data = [];
-                for (let i in res) {
-                    data.push(res[i]);
-                }
-                setIngredients((prevIngredients) => [...prevIngredients, ...data]);
-            });
-    }, []);
+    // useEffect(() => {
+    //     console.log("Rendered Ingredients", ingredients);
+    // }, [ingredients]);
     const addIngredients = async (data) => {
         const response = await fetch("https://react-hooks-355b5.firebaseio.com/ingredients.json", {
             method: "POST",
@@ -28,12 +20,15 @@ const Ingredients = (props) => {
         const body = await response.json();
         setIngredients((prevIngredients) => [...prevIngredients, { id: body.name, ...data }]);
     };
+    const setFilteredIngredients = useCallback((data) => {
+        setIngredients(data);
+    }, []);
     return (
         <div className="App">
             <IngredientForm onFormSubmit={addIngredients} />
 
             <section>
-                <Search />
+                <Search setFilteredIngredients={setFilteredIngredients} />
                 <IngredientList ingredients={ingredients} onRemoveItem={() => {}} />
             </section>
         </div>

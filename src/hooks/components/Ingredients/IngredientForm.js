@@ -18,6 +18,8 @@ const IngredientForm = React.memo((props) => {
             title: title.trim(),
             amount,
         });
+        setTitle("");
+        setAmount("");
     };
 
     return (
