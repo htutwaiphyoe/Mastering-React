@@ -17,17 +17,31 @@ const ingredientsReducer = (ingredients, action) => {
             throw new Error("Unknown action");
     }
 };
+
+const httpReducer = (httpState, action) => {
+    switch (action.type) {
+        case "FETCH":
+            return { ...httpState, loading: true };
+        case "FINISH":
+            return { ...httpState, loading: false };
+        case "ERROR":
+            return { loading: false, error: action.payload };
+        default:
+            throw new Error("Unknown action");
+    }
+};
 const Ingredients = (props) => {
-    const [ingredients, dispatch] = useReducer(ingredientsReducer, []);
+    const [ingredients, dispatchIngredients] = useReducer(ingredientsReducer, []);
+    const [http, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
     // const [ingredients, setIngredients] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    // const [loading, setLoading] = useState(false);
+    // const [error, setError] = useState(null);
     // useEffect(() => {
     //     console.log("Rendered Ingredients", ingredients);
     // }, [ingredients]);
     const addIngredients = async (data) => {
         try {
-            setLoading(true);
+            dispatchHttp({ type: "FETCH" });
             const response = await fetch(
                 "https://react-hooks-355b5.firebaseio.com/ingredients.json",
                 {
@@ -39,42 +53,44 @@ const Ingredients = (props) => {
                 }
             );
             const body = await response.json();
-            dispatch({ type: "ADD", payload: { id: body.name, ...data } });
+            dispatchIngredients({ type: "ADD", payload: { id: body.name, ...data } });
             // setIngredients((prevIngredients) => [...prevIngredients, { id: body.name, ...data }]);
-            setLoading(false);
+            dispatchHttp({ type: "FINISH" });
         } catch (err) {
-            setError(err);
-            setLoading(false);
+            dispatchHttp({ type: "ERROR", payload: err });
         }
     };
     const setFilteredIngredients = useCallback((data) => {
-        dispatch({ type: "SET", payload: data });
+        dispatchIngredients({ type: "SET", payload: data });
     }, []);
     const removeIngredients = (id) => {
-        setLoading(true);
+        dispatchHttp({ type: "FETCH" });
         fetch(`https://react-hooks-355b5.firebaseio.com/ingredients/${id}.json`, {
             method: "DELETE",
         })
             .then((response) => {
-                dispatch({ type: "REMOVE", payload: id });
+                dispatchIngredients({ type: "REMOVE", payload: id });
                 // setIngredients((prevIngredients) => prevIngredients.filter((ing) => ing.id !== id));
-                setLoading(false);
+                dispatchHttp({ type: "FINISH" });
             })
             .catch((e) => {
-                setError(e);
-                setLoading(false);
+                dispatchHttp({ type: "ERROR", payload: e });
             });
     };
 
     const loadingHandler = useCallback((status) => {
-        setLoading(status);
+        if (status) {
+            dispatchHttp({ type: "FETCH" });
+        } else {
+            dispatchHttp({ type: "FINISH" });
+        }
     }, []);
     const errorHandler = useCallback((status) => {
-        setError(status);
+        dispatchHttp({ type: "ERROR", payload: status });
     }, []);
     return (
         <div className="App">
-            {error && (
+            {http.error && (
                 <ErrorModal onClose={() => errorHandler(null)}>
                     Something went wrong!{" "}
                     <span role="img" aria-label="Error">
@@ -82,7 +98,7 @@ const Ingredients = (props) => {
                     </span>
                 </ErrorModal>
             )}
-            <IngredientForm onFormSubmit={addIngredients} loading={loading} />
+            <IngredientForm onFormSubmit={addIngredients} loading={http.loading} />
 
             <section>
                 <Search

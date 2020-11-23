@@ -25,7 +25,6 @@ const Search = React.memo((props) => {
                     })
                     .catch((e) => {
                         errorHandler(e);
-                        loadingHandler(false);
                     });
             }
         }, 500);
