@@ -1,12 +1,25 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useReducer } from "react";
 
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
 import Search from "./Search";
 import ErrorModal from "../UI/ErrorModal";
 
+const ingredientsReducer = (ingredients, action) => {
+    switch (action.type) {
+        case "SET":
+            return action.payload;
+        case "ADD":
+            return [...ingredients, action.payload];
+        case "REMOVE":
+            return ingredients.filter((ing) => ing.id !== action.payload);
+        default:
+            throw new Error("Unknown action");
+    }
+};
 const Ingredients = (props) => {
-    const [ingredients, setIngredients] = useState([]);
+    const [ingredients, dispatch] = useReducer(ingredientsReducer, []);
+    // const [ingredients, setIngredients] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     // useEffect(() => {
@@ -26,7 +39,8 @@ const Ingredients = (props) => {
                 }
             );
             const body = await response.json();
-            setIngredients((prevIngredients) => [...prevIngredients, { id: body.name, ...data }]);
+            dispatch({ type: "ADD", payload: { id: body.name, ...data } });
+            // setIngredients((prevIngredients) => [...prevIngredients, { id: body.name, ...data }]);
             setLoading(false);
         } catch (err) {
             setError(err);
@@ -34,7 +48,7 @@ const Ingredients = (props) => {
         }
     };
     const setFilteredIngredients = useCallback((data) => {
-        setIngredients(data);
+        dispatch({ type: "SET", payload: data });
     }, []);
     const removeIngredients = (id) => {
         setLoading(true);
@@ -42,7 +56,8 @@ const Ingredients = (props) => {
             method: "DELETE",
         })
             .then((response) => {
-                setIngredients((prevIngredients) => prevIngredients.filter((ing) => ing.id !== id));
+                dispatch({ type: "REMOVE", payload: id });
+                // setIngredients((prevIngredients) => prevIngredients.filter((ing) => ing.id !== id));
                 setLoading(false);
             })
             .catch((e) => {
@@ -56,8 +71,6 @@ const Ingredients = (props) => {
     }, []);
     const errorHandler = useCallback((status) => {
         setError(status);
-
-        loadingHandler(false);
     }, []);
     return (
         <div className="App">

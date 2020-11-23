@@ -34,7 +34,12 @@ const Search = React.memo((props) => {
         };
     }, [search, setFilteredIngredients, loadingHandler, errorHandler]);
     const onSearchChange = (e) => {
+        // console.log(search);
         setSearchInput(e.target.value);
+        // setSearchInput((prevSearch) => {
+        //     console.log(prevSearch);
+        //     return prevSearch + prevSearch;
+        // });
     };
     return (
         <section className="search">
