@@ -5,11 +5,12 @@ import "./Search.css";
 
 const Search = React.memo((props) => {
     const [search, setSearchInput] = useState("");
-    const { setFilteredIngredients } = props;
+    const { setFilteredIngredients, loadingHandler, errorHandler } = props;
     const searchRef = useRef();
     useEffect(() => {
         const timer = setTimeout(() => {
             if (search === searchRef.current.value) {
+                loadingHandler(true);
                 const query =
                     search.trim().length === 0 ? "" : `?orderBy="title"&equalTo="${search.trim()}"`;
                 fetch("https://react-hooks-355b5.firebaseio.com/ingredients.json" + query)
@@ -20,13 +21,18 @@ const Search = React.memo((props) => {
                             data.push({ id: i, ...res[i] });
                         }
                         setFilteredIngredients(data);
+                        loadingHandler(false);
+                    })
+                    .catch((e) => {
+                        errorHandler(e);
+                        loadingHandler(false);
                     });
             }
         }, 500);
         return () => {
             clearTimeout(timer);
         };
-    }, [search, setFilteredIngredients]);
+    }, [search, setFilteredIngredients, loadingHandler, errorHandler]);
     const onSearchChange = (e) => {
         setSearchInput(e.target.value);
     };
