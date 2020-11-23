@@ -7,7 +7,6 @@ import { AuthContext } from "../ContextAPI/AuthContext";
 const Auth = (props) => {
     const authContext = useContext(AuthContext);
     const loginHandler = () => {
-        console.log(authContext);
         authContext.login();
     };
 

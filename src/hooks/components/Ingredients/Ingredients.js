@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useReducer } from "react";
+import React, { useState, useEffect, useCallback, useReducer, useMemo } from "react";
 
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
@@ -39,7 +39,7 @@ const Ingredients = (props) => {
     // useEffect(() => {
     //     console.log("Rendered Ingredients", ingredients);
     // }, [ingredients]);
-    const addIngredients = async (data) => {
+    const addIngredients = useCallback(async (data) => {
         try {
             dispatchHttp({ type: "FETCH" });
             const response = await fetch(
@@ -59,11 +59,11 @@ const Ingredients = (props) => {
         } catch (err) {
             dispatchHttp({ type: "ERROR", payload: err });
         }
-    };
+    }, []);
     const setFilteredIngredients = useCallback((data) => {
         dispatchIngredients({ type: "SET", payload: data });
     }, []);
-    const removeIngredients = (id) => {
+    const removeIngredients = useCallback((id) => {
         dispatchHttp({ type: "FETCH" });
         fetch(`https://react-hooks-355b5.firebaseio.com/ingredients/${id}.json`, {
             method: "DELETE",
@@ -76,7 +76,7 @@ const Ingredients = (props) => {
             .catch((e) => {
                 dispatchHttp({ type: "ERROR", payload: e });
             });
-    };
+    }, []);
 
     const loadingHandler = useCallback((status) => {
         if (status) {
@@ -88,6 +88,10 @@ const Ingredients = (props) => {
     const errorHandler = useCallback((status) => {
         dispatchHttp({ type: "ERROR", payload: status });
     }, []);
+
+    const ingredientsList = useMemo(() => {
+        return <IngredientList ingredients={ingredients} onRemoveItem={removeIngredients} />;
+    }, [ingredients, removeIngredients]);
     return (
         <div className="App">
             {http.error && (
@@ -106,7 +110,7 @@ const Ingredients = (props) => {
                     loadingHandler={loadingHandler}
                     errorHandler={errorHandler}
                 />
-                <IngredientList ingredients={ingredients} onRemoveItem={removeIngredients} />
+                {ingredientsList}
             </section>
         </div>
     );

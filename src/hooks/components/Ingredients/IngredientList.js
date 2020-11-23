@@ -3,6 +3,7 @@ import React from "react";
 import "./IngredientList.css";
 
 const IngredientList = (props) => {
+    console.log("List REnder");
     return (
         <section className="ingredient-list">
             <h2>Loaded Ingredients</h2>
