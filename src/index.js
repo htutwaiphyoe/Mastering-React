@@ -8,6 +8,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "./redux/store/reducers";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
+import AuthContextProvider from "./hooks/ContextAPI/AuthContext";
 axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
 axios.defaults.headers.common["Authorization"] = "Auth Token";
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -51,7 +52,10 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(logger, thun
 ReactDOM.render(
     <React.StrictMode>
         {/* <Provider store={store}> */}
+        <AuthContextProvider>
             <App />
+        </AuthContextProvider>
+
         {/* </Provider> */}
     </React.StrictMode>,
     document.getElementById("root")
