@@ -10,8 +10,10 @@ import * as serviceWorker from "./serviceWorker";
 // import axios from "axios";
 
 import { BrowserRouter } from "react-router-dom";
-// import AuthContextProvider from "./hooks/ContextAPI/AuthContext";
-import ProductsContextProvider from "./context/contextAPI/products";
+import configureProductsStore from "./context/hooks/products";
+import configureCounterStore from "./context/hooks/counter-store";
+// // import AuthContextProvider from "./hooks/ContextAPI/AuthContext";
+// import ProductsContextProvider from "./context/contextAPI/products";
 // axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
 // axios.defaults.headers.common["Authorization"] = "Auth Token";
 // axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -52,16 +54,18 @@ import ProductsContextProvider from "./context/contextAPI/products";
 // Redux DevTools
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(reducer, composeEnhancers(applyMiddleware(logger, thunk)));
+configureProductsStore();
+configureCounterStore();
+
 ReactDOM.render(
     <React.StrictMode>
         {/* <Provider store={store}> */}
         {/* <AuthContextProvider> */}
-        <ProductsContextProvider>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </ProductsContextProvider>
-        ,{/* </AuthContextProvider> */}
+        {/* <ProductsContextProvider> */}
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+        {/* </ProductsContextProvider> */},{/* </AuthContextProvider> */}
         {/* </Provider> */}
     </React.StrictMode>,
     document.getElementById("root")
