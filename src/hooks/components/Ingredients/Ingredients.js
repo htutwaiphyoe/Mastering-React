@@ -4,6 +4,7 @@ import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
 import Search from "./Search";
 import ErrorModal from "../UI/ErrorModal";
+import useHttp from "../../hooks/useHttp";
 
 const ingredientsReducer = (ingredients, action) => {
     switch (action.type) {
@@ -18,97 +19,75 @@ const ingredientsReducer = (ingredients, action) => {
     }
 };
 
-const httpReducer = (httpState, action) => {
-    switch (action.type) {
-        case "FETCH":
-            return { ...httpState, loading: true };
-        case "FINISH":
-            return { ...httpState, loading: false };
-        case "ERROR":
-            return { loading: false, error: action.payload };
-        default:
-            throw new Error("Unknown action");
-    }
-};
 const Ingredients = (props) => {
     const [ingredients, dispatchIngredients] = useReducer(ingredientsReducer, []);
-    const [http, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
-    // const [ingredients, setIngredients] = useState([]);
-    // const [loading, setLoading] = useState(false);
-    // const [error, setError] = useState(null);
-    // useEffect(() => {
-    //     console.log("Rendered Ingredients", ingredients);
-    // }, [ingredients]);
-    const addIngredients = useCallback(async (data) => {
-        try {
-            dispatchHttp({ type: "FETCH" });
-            const response = await fetch(
-                "https://react-hooks-355b5.firebaseio.com/ingredients.json",
-                {
-                    method: "POST",
-                    body: JSON.stringify(data),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            const body = await response.json();
-            dispatchIngredients({ type: "ADD", payload: { id: body.name, ...data } });
-            // setIngredients((prevIngredients) => [...prevIngredients, { id: body.name, ...data }]);
-            dispatchHttp({ type: "FINISH" });
-        } catch (err) {
-            dispatchHttp({ type: "ERROR", payload: err });
+    const { loading, error, response, sendRequest, errorHandler, loadingHandler } = useHttp();
+    useEffect(() => {
+        if (response?.action?.type === "ADD") {
+            dispatchIngredients({
+                type: "ADD",
+                payload: { id: response.name, ...response.action.payload },
+            });
+        } else if (response?.action?.type === "REMOVE") {
+            dispatchIngredients({ type: "REMOVE", payload: response.action.payload });
         }
-    }, []);
+    }, [response]);
+    const addIngredients = useCallback(
+        async (data) => {
+            sendRequest({
+                url: "https://react-hooks-355b5.firebaseio.com/ingredients.json",
+                method: "POST",
+                body: data,
+                action: { type: "ADD", payload: data },
+            });
+        },
+        [sendRequest]
+    );
     const setFilteredIngredients = useCallback((data) => {
         dispatchIngredients({ type: "SET", payload: data });
     }, []);
-    const removeIngredients = useCallback((id) => {
-        dispatchHttp({ type: "FETCH" });
-        fetch(`https://react-hooks-355b5.firebaseio.com/ingredients/${id}.json`, {
-            method: "DELETE",
-        })
-            .then((response) => {
-                dispatchIngredients({ type: "REMOVE", payload: id });
-                // setIngredients((prevIngredients) => prevIngredients.filter((ing) => ing.id !== id));
-                dispatchHttp({ type: "FINISH" });
-            })
-            .catch((e) => {
-                dispatchHttp({ type: "ERROR", payload: e });
+    const removeIngredients = useCallback(
+        (id) => {
+            sendRequest({
+                url: `https://react-hooks-355b5.firebaseio.com/ingredients/${id}.json`,
+                method: "DELETE",
+                action: {
+                    type: "REMOVE",
+                    payload: id,
+                },
             });
-    }, []);
-
-    const loadingHandler = useCallback((status) => {
-        if (status) {
-            dispatchHttp({ type: "FETCH" });
-        } else {
-            dispatchHttp({ type: "FINISH" });
-        }
-    }, []);
-    const errorHandler = useCallback((status) => {
-        dispatchHttp({ type: "ERROR", payload: status });
-    }, []);
-
+        },
+        [sendRequest]
+    );
+    const handleError = useCallback(
+        (status) => {
+            errorHandler(status);
+        },
+        [errorHandler]
+    );
+    const handleLoading = useCallback(() => {
+        loadingHandler();
+    }, [loadingHandler]);
     const ingredientsList = useMemo(() => {
         return <IngredientList ingredients={ingredients} onRemoveItem={removeIngredients} />;
     }, [ingredients, removeIngredients]);
     return (
         <div className="App">
-            {http.error && (
-                <ErrorModal onClose={() => errorHandler(null)}>
-                    Something went wrong!{" "}
+            {error && (
+                <ErrorModal onClose={() => handleError(null)}>
+                    Something went wrong!
                     <span role="img" aria-label="Error">
                         💥
                     </span>
                 </ErrorModal>
             )}
-            <IngredientForm onFormSubmit={addIngredients} loading={http.loading} />
+            <IngredientForm onFormSubmit={addIngredients} loading={loading} />
 
             <section>
                 <Search
                     setFilteredIngredients={setFilteredIngredients}
-                    loadingHandler={loadingHandler}
-                    errorHandler={errorHandler}
+                    handleError={handleError}
+                    handleLoading={handleLoading}
                 />
                 {ingredientsList}
             </section>
