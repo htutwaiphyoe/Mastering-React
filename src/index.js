@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 // import thunk from "redux-thunk";
 import "./index.css";
-import App from "./context/App";
+import App from "./imagePicker/App";
 // import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 // import reducer from "./redux/store/reducers";
 import * as serviceWorker from "./serviceWorker";
@@ -62,9 +62,9 @@ ReactDOM.render(
         {/* <Provider store={store}> */}
         {/* <AuthContextProvider> */}
         {/* <ProductsContextProvider> */}
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        {/* <BrowserRouter> */}
+        <App />
+        {/* </BrowserRouter> */}
         {/* </ProductsContextProvider> */},{/* </AuthContextProvider> */}
         {/* </Provider> */}
     </React.StrictMode>,
